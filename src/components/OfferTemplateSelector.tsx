@@ -15,25 +15,11 @@ interface TemplateOption {
 
 const templates: TemplateOption[] = [
   {
-    id: 'basic',
-    name: 'Basic Offer',
-    description: 'Simple offer with title, description, and CTA button',
-    preview: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop',
-    fields: ['Title', 'Description', 'CTA Button']
-  },
-  {
     id: 'premium',
     name: 'Premium Offer',
     description: 'Enhanced offer with background image and badge',
-    preview: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=200&fit=crop',
+    preview: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=200&fit=crop',
     fields: ['Title', 'Description', 'CTA Button', 'Background Image', 'Badge']
-  },
-  {
-    id: 'promotional',
-    name: 'Promotional Offer',
-    description: 'Special promotional offer with pricing and discount',
-    preview: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop',
-    fields: ['Title', 'Description', 'CTA Button', 'Subtitle', 'Price', 'Discount']
   }
 ];
 
