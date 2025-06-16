@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import OfferTemplateSelector from '@/components/OfferTemplateSelector';
 import OfferPreview from '@/components/OfferPreview';
-import ImageUploadBrowser from '@/components/ImageUploadBrowser';
+import ImageBrowser from '@/components/ImageBrowser';
 
 export interface OfferData {
   // Offer Metadata
@@ -23,6 +23,7 @@ export interface OfferData {
   endDate?: Date;
   
   // Offer-specific fields (dynamic based on template type)
+  offerTitle?: string;
   ctaButton?: string;
   backgroundImage?: string;
   badge?: string;
@@ -57,7 +58,15 @@ const CreateOffer = () => {
       case 'basic':
         return (
           <div className="space-y-4">
-            <h4 className="font-medium text-gray-900">Offer Information</h4>
+            <div>
+              <Label htmlFor="offerTitle">Offer Title</Label>
+              <Input
+                id="offerTitle"
+                value={offerData.offerTitle || ''}
+                onChange={(e) => updateOfferData('offerTitle', e.target.value)}
+                placeholder="Enter offer title"
+              />
+            </div>
             <div>
               <Label htmlFor="ctaButton">CTA Button Text</Label>
               <Input
@@ -73,7 +82,15 @@ const CreateOffer = () => {
       case 'premium':
         return (
           <div className="space-y-4">
-            <h4 className="font-medium text-gray-900">Offer Information</h4>
+            <div>
+              <Label htmlFor="offerTitle">Offer Title</Label>
+              <Input
+                id="offerTitle"
+                value={offerData.offerTitle || ''}
+                onChange={(e) => updateOfferData('offerTitle', e.target.value)}
+                placeholder="Enter offer title"
+              />
+            </div>
             <div>
               <Label htmlFor="ctaButton">CTA Button Text</Label>
               <Input
@@ -85,10 +102,10 @@ const CreateOffer = () => {
             </div>
             <div>
               <Label htmlFor="backgroundImage">Background Image</Label>
-              <ImageUploadBrowser
+              <ImageBrowser
                 value={offerData.backgroundImage || ''}
                 onChange={(value) => updateOfferData('backgroundImage', value)}
-                placeholder="Upload or enter background image URL"
+                placeholder="Select or enter background image URL"
               />
             </div>
             <div>
@@ -106,7 +123,15 @@ const CreateOffer = () => {
       case 'promotional':
         return (
           <div className="space-y-4">
-            <h4 className="font-medium text-gray-900">Offer Information</h4>
+            <div>
+              <Label htmlFor="offerTitle">Offer Title</Label>
+              <Input
+                id="offerTitle"
+                value={offerData.offerTitle || ''}
+                onChange={(e) => updateOfferData('offerTitle', e.target.value)}
+                placeholder="Enter offer title"
+              />
+            </div>
             <div>
               <Label htmlFor="ctaButton">CTA Button Text</Label>
               <Input
@@ -156,119 +181,130 @@ const CreateOffer = () => {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Create new offer</h1>
         
-        <div className={`grid gap-8 ${offerData.templateType ? 'grid-cols-2' : 'grid-cols-1 max-w-2xl'}`}>
-          {/* Form Section */}
-          <Card className="p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className={`grid gap-8 ${offerData.templateType ? 'grid-cols-2' : 'grid-cols-1 max-w-2xl'}`}>
+            {/* Left Column - Form */}
+            <div className="space-y-6">
               {/* Offer Metadata Section */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Offer Metadata</h3>
-                
-                <div>
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    value={offerData.title}
-                    onChange={(e) => updateOfferData('title', e.target.value)}
-                    placeholder="Enter offer title"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={offerData.description}
-                    onChange={(e) => updateOfferData('description', e.target.value)}
-                    placeholder="Enter offer description"
-                    rows={4}
-                    required
-                  />
-                </div>
-
-                <div>
-                  <Label>Offer Template</Label>
-                  <OfferTemplateSelector
-                    selectedTemplate={offerData.templateType}
-                    onTemplateSelect={(templateType) => updateOfferData('templateType', templateType)}
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+              <Card className="p-6">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Offer Metadata</h3>
+                  
                   <div>
-                    <Label>Start Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !offerData.startDate && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {offerData.startDate ? format(offerData.startDate, "PPP") : <span>Pick start date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={offerData.startDate}
-                          onSelect={(date) => updateOfferData('startDate', date)}
-                          initialFocus
-                          className="p-3 pointer-events-auto"
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <Label htmlFor="title">Title</Label>
+                    <Input
+                      id="title"
+                      value={offerData.title}
+                      onChange={(e) => updateOfferData('title', e.target.value)}
+                      placeholder="Enter offer title"
+                      required
+                    />
                   </div>
 
                   <div>
-                    <Label>End Date</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal",
-                            !offerData.endDate && "text-muted-foreground"
-                          )}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {offerData.endDate ? format(offerData.endDate, "PPP") : <span>Pick end date</span>}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={offerData.endDate}
-                          onSelect={(date) => updateOfferData('endDate', date)}
-                          initialFocus
-                          className="p-3 pointer-events-auto"
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      id="description"
+                      value={offerData.description}
+                      onChange={(e) => updateOfferData('description', e.target.value)}
+                      placeholder="Enter offer description"
+                      rows={4}
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <Label>Offer Template</Label>
+                    <OfferTemplateSelector
+                      selectedTemplate={offerData.templateType}
+                      onTemplateSelect={(templateType) => updateOfferData('templateType', templateType)}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label>Start Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !offerData.startDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {offerData.startDate ? format(offerData.startDate, "PPP") : <span>Pick start date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={offerData.startDate}
+                            onSelect={(date) => updateOfferData('startDate', date)}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div>
+                      <Label>End Date</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal",
+                              !offerData.endDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {offerData.endDate ? format(offerData.endDate, "PPP") : <span>Pick end date</span>}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={offerData.endDate}
+                            onSelect={(date) => updateOfferData('endDate', date)}
+                            initialFocus
+                            className="p-3 pointer-events-auto"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Card>
 
               {/* Offer Information Section */}
-              {renderOfferInformation()}
+              {offerData.templateType && (
+                <Card className="p-6">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Offer Information</h3>
+                    {renderOfferInformation()}
+                  </div>
+                </Card>
+              )}
 
               <Button type="submit" className="w-full" disabled={!offerData.templateType}>
                 Submit Offer
               </Button>
-            </form>
-          </Card>
+            </div>
 
-          {/* Preview Section */}
-          {offerData.templateType && (
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Preview</h3>
-              <OfferPreview offerData={offerData} />
-            </Card>
-          )}
-        </div>
+            {/* Right Column - Preview */}
+            {offerData.templateType && (
+              <div className="sticky top-6">
+                <Card className="p-6">
+                  <h3 className="text-lg font-semibold mb-4">Preview</h3>
+                  <OfferPreview offerData={offerData} />
+                </Card>
+              </div>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );

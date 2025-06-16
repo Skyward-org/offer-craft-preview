@@ -12,7 +12,7 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
   const renderBasicOffer = () => (
     <div className="bg-white border rounded-lg p-6 shadow-sm">
       <h2 className="text-2xl font-bold text-gray-900 mb-3">
-        {offerData.title || 'Your Offer Title'}
+        {offerData.offerTitle || 'Your Offer Title'}
       </h2>
       <p className="text-gray-600 mb-6">
         {offerData.description || 'Your offer description will appear here...'}
@@ -41,7 +41,7 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
           </Badge>
         )}
         <h2 className="text-2xl font-bold mb-3">
-          {offerData.title || 'Premium Offer Title'}
+          {offerData.offerTitle || 'Premium Offer Title'}
         </h2>
         <p className="text-gray-200 mb-6">
           {offerData.description || 'Your premium offer description will appear here...'}
@@ -62,7 +62,7 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
           </Badge>
         )}
         <h2 className="text-2xl font-bold mb-2">
-          {offerData.title || 'Special Promotion'}
+          {offerData.offerTitle || 'Special Promotion'}
         </h2>
         {offerData.subtitle && (
           <p className="text-orange-100 text-sm mb-3">
