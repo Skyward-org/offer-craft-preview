@@ -5,8 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -30,16 +32,26 @@ export interface OfferData {
   subtitle?: string;
   price?: string;
   discount?: string;
+  
+  // Dimensions and styling
+  width?: number;
+  height?: number;
+  useFullWidth?: boolean;
+  dropShadow?: string;
 }
 
 const CreateOffer = () => {
   const [offerData, setOfferData] = useState<OfferData>({
     title: '',
     description: '',
-    templateType: ''
+    templateType: '',
+    width: 400,
+    height: 420,
+    useFullWidth: false,
+    dropShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
   });
 
-  const updateOfferData = (field: keyof OfferData, value: string | Date | undefined) => {
+  const updateOfferData = (field: keyof OfferData, value: string | Date | number | boolean | undefined) => {
     setOfferData(prev => ({
       ...prev,
       [field]: value
@@ -51,7 +63,7 @@ const CreateOffer = () => {
     console.log('Offer Data:', offerData);
   };
 
-  const renderOfferInformation = () => {
+  const renderOfferContentFields = () => {
     if (!offerData.templateType) return null;
 
     switch (offerData.templateType) {
@@ -176,6 +188,51 @@ const CreateOffer = () => {
     }
   };
 
+  const renderDimensionFields = () => (
+    <div className="space-y-4">
+      <div className="flex items-center space-x-4">
+        <div className="flex-1">
+          <Label htmlFor="width">Width (px)</Label>
+          <Input
+            id="width"
+            type="number"
+            value={offerData.width || 400}
+            onChange={(e) => updateOfferData('width', parseInt(e.target.value))}
+            disabled={offerData.useFullWidth}
+          />
+        </div>
+        <div className="flex items-center space-x-2 mt-6">
+          <Checkbox
+            id="fullWidth"
+            checked={offerData.useFullWidth}
+            onCheckedChange={(checked) => updateOfferData('useFullWidth', checked)}
+          />
+          <Label htmlFor="fullWidth">Full width</Label>
+        </div>
+      </div>
+      
+      <div>
+        <Label htmlFor="height">Height (px)</Label>
+        <Input
+          id="height"
+          type="number"
+          value={offerData.height || 420}
+          onChange={(e) => updateOfferData('height', parseInt(e.target.value))}
+        />
+      </div>
+      
+      <div>
+        <Label htmlFor="dropShadow">Drop Shadow (CSS)</Label>
+        <Input
+          id="dropShadow"
+          value={offerData.dropShadow || ''}
+          onChange={(e) => updateOfferData('dropShadow', e.target.value)}
+          placeholder="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
@@ -279,12 +336,26 @@ const CreateOffer = () => {
                 </div>
               </Card>
 
-              {/* Offer Information Section */}
+              {/* Offer Information Section with Tabs */}
               {offerData.templateType && (
                 <Card className="p-6">
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Offer Information</h3>
-                    {renderOfferInformation()}
+                    
+                    <Tabs defaultValue="content" className="w-full">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="content">Content</TabsTrigger>
+                        <TabsTrigger value="dimensions">Dimensions</TabsTrigger>
+                      </TabsList>
+                      
+                      <TabsContent value="content" className="space-y-4">
+                        {renderOfferContentFields()}
+                      </TabsContent>
+                      
+                      <TabsContent value="dimensions" className="space-y-4">
+                        {renderDimensionFields()}
+                      </TabsContent>
+                    </Tabs>
                   </div>
                 </Card>
               )}
@@ -296,9 +367,8 @@ const CreateOffer = () => {
 
             {/* Right Column - Preview */}
             {offerData.templateType && (
-              <div className="sticky top-6">
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Preview</h3>
+              <div className="h-screen sticky top-6">
+                <Card className="p-6 h-full flex flex-col">
                   <OfferPreview offerData={offerData} />
                 </Card>
               </div>
