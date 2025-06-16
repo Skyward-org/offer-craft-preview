@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CalendarIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -48,7 +49,7 @@ const CreateOffer = () => {
     width: 400,
     height: 420,
     useFullWidth: false,
-    dropShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+    dropShadow: 'medium'
   });
 
   const updateOfferData = (field: keyof OfferData, value: string | Date | number | boolean | undefined) => {
@@ -222,13 +223,25 @@ const CreateOffer = () => {
       </div>
       
       <div>
-        <Label htmlFor="dropShadow">Drop Shadow (CSS)</Label>
-        <Input
-          id="dropShadow"
-          value={offerData.dropShadow || ''}
-          onChange={(e) => updateOfferData('dropShadow', e.target.value)}
-          placeholder="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
-        />
+        <Label>Drop Shadow</Label>
+        <RadioGroup
+          value={offerData.dropShadow || 'medium'}
+          onValueChange={(value) => updateOfferData('dropShadow', value)}
+          className="flex flex-col space-y-2"
+        >
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="light" id="light" />
+            <Label htmlFor="light">Light</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="medium" id="medium" />
+            <Label htmlFor="medium">Medium</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="dark" id="dark" />
+            <Label htmlFor="dark">Dark</Label>
+          </div>
+        </RadioGroup>
       </div>
     </div>
   );

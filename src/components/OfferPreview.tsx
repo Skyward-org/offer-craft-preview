@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Toggle } from '@/components/ui/toggle';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 import { OfferData } from '@/pages/CreateOffer';
 
 interface OfferPreviewProps {
@@ -12,10 +13,23 @@ interface OfferPreviewProps {
 const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
   const [viewSource, setViewSource] = useState(false);
 
+  const getDropShadowValue = (level: string) => {
+    switch (level) {
+      case 'light':
+        return '0 1px 3px 0 rgba(0, 0, 0, 0.1)';
+      case 'medium':
+        return '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+      case 'dark':
+        return '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+      default:
+        return '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+    }
+  };
+
   const getOfferStyle = () => {
     const width = offerData.useFullWidth ? '100%' : `${offerData.width || 400}px`;
     const height = `${offerData.height || 420}px`;
-    const boxShadow = offerData.dropShadow || '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+    const boxShadow = getDropShadowValue(offerData.dropShadow || 'medium');
     
     return {
       width,
@@ -54,7 +68,7 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
         style={{
           ...style,
           backgroundImage: offerData.backgroundImage 
-            ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${offerData.backgroundImage})`
+            ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${offerData.backgroundImage})`
             : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
@@ -143,7 +157,7 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
 
       case 'premium':
         const bgImage = offerData.backgroundImage 
-          ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${offerData.backgroundImage})`
+          ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${offerData.backgroundImage})`
           : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
         return `<div style="${inlineStyle} position: relative; background: white; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; background-image: ${bgImage}; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: space-between;">
   <div style="padding: 24px; color: white; position: relative; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
@@ -209,14 +223,20 @@ const OfferPreview: React.FC<OfferPreviewProps> = ({ offerData }) => {
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">Preview</h3>
         {offerData.templateType && (
-          <Toggle
-            pressed={viewSource}
-            onPressedChange={setViewSource}
-            aria-label="Toggle view source"
-            className="text-sm"
+          <RadioGroup
+            value={viewSource ? 'source' : 'preview'}
+            onValueChange={(value) => setViewSource(value === 'source')}
+            className="flex items-center space-x-4"
           >
-            View Source
-          </Toggle>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="preview" id="preview" />
+              <Label htmlFor="preview" className="text-sm">Preview</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="source" id="source" />
+              <Label htmlFor="source" className="text-sm">Source</Label>
+            </div>
+          </RadioGroup>
         )}
       </div>
       

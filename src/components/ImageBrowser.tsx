@@ -18,18 +18,18 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   
-  // Sample Unsplash images from the placeholder_images context
-  const unsplashImages = [
-    { id: 'photo-1649972904349-6e44c42644a7', url: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop', description: 'Woman with laptop' },
-    { id: 'photo-1488590528505-98d2b5aba04b', url: 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop', description: 'Gray laptop computer' },
-    { id: 'photo-1518770660439-4636190af475', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop', description: 'Circuit board' },
-    { id: 'photo-1461749280684-dccba630e2f6', url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop', description: 'Java programming' },
-    { id: 'photo-1486312338219-ce68d2c6f44d', url: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop', description: 'Person using MacBook' },
-    { id: 'photo-1581091226825-a6a2a5aee158', url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=300&fit=crop', description: 'Woman with laptop' },
-    { id: 'photo-1485827404703-89b55fcc595e', url: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop', description: 'White robot' },
-    { id: 'photo-1526374965328-7f61d4dc18c5', url: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=300&fit=crop', description: 'Matrix style' },
-    { id: 'photo-1531297484001-80022131f5a1', url: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop', description: 'Laptop on surface' },
-    { id: 'photo-1487058792275-0ad4aaf24ca7', url: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=300&fit=crop', description: 'Colorful code' }
+  // Travel and airplane themed images
+  const travelImages = [
+    { id: 'travel-1', url: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop', description: 'Airplane wing over clouds' },
+    { id: 'travel-2', url: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=400&h=300&fit=crop', description: 'Tropical beach destination' },
+    { id: 'travel-3', url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop', description: 'Airplane on runway' },
+    { id: 'travel-4', url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop', description: 'Mountain landscape travel' },
+    { id: 'travel-5', url: 'https://images.unsplash.com/photo-1502780402662-acc01917c4e6?w=400&h=300&fit=crop', description: 'Airport terminal' },
+    { id: 'travel-6', url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop', description: 'City skyline travel' },
+    { id: 'travel-7', url: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400&h=300&fit=crop', description: 'Airplane in sky' },
+    { id: 'travel-8', url: 'https://images.unsplash.com/photo-1529963183134-61a90db47edf?w=400&h=300&fit=crop', description: 'Desert travel destination' },
+    { id: 'travel-9', url: 'https://images.unsplash.com/photo-1517400508447-f8dd518b86db?w=400&h=300&fit=crop', description: 'Airport departure board' },
+    { id: 'travel-10', url: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop', description: 'Forest travel destination' }
   ];
 
   const handleImageSelect = (imageUrl: string) => {
@@ -58,10 +58,10 @@ const ImageBrowser: React.FC<ImageBrowserProps> = ({
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Select Image</DialogTitle>
+              <DialogTitle>Select Travel Image</DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4">
-              {unsplashImages.map((image) => (
+              {travelImages.map((image) => (
                 <div
                   key={image.id}
                   className="cursor-pointer rounded-lg overflow-hidden border hover:border-blue-500 transition-colors"
